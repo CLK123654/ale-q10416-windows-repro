@@ -1,7 +1,7 @@
-支持Windows11、macOS13及主流64位Linux。主软件为Helm3.17.3，Windows11使用官方helm.exe。Chart必须经过真实Helm的lint、values.schema.json校验、values合并和template渲染；普通文本替换或只读取模板源码不能代替这些Helm语义。
+操作系统：Windows11、macOS或主流64位Linux。
 
-辅助工具为Node.js20或更高版本、PowerShell或系统终端，以及JSON、YAML和CSV查看器。安装软件时可以联网，处理业务材料时保持离线，不连接Kubernetes API、镜像仓库或搜索服务。输入材料为脱敏配置样例。
+主软件为Helm3.17系列或更高兼容版本，Windows环境使用helm.exe。Chart需经过真实Helm的lint、values.schema.json校验、values合并和template渲染；普通文本替换或只读取模板源码不能代替这些Helm语义。
 
-建议使用双核CPU、1GB内存和300MB可写磁盘，不需要GPU。执行账号需读取input_data下的Chart、values、data、rules与tools目录，可写output目录，并有权运行HELM_BIN指定的Helm程序。单次入口最长运行60秒。
+Node.js20或更高版本用于运行任务入口，PowerShell或系统终端用于设置HELM_BIN。常见JSON、YAML和CSV工具可用于阅读配置与报告。任务只处理本地Chart、values、租户数据和规则，不需要连接Kubernetes API、镜像仓库或搜索服务。
 
-需要留意Ingress后端和Service端口断链、disabled租户残留注解、release或namespace被写死，以及回滚差异方向反转。Windows入口使用跨平台路径。
+本题对CPU没有特殊要求，也不需要GPU。磁盘需能容纳Helm、Node.js、输入Chart、各环境渲染结果及报告。执行账户需能读取input_data，运行HELM_BIN指向的Helm程序并写入output。入口应设置有限超时，覆盖全部环境的lint与渲染，并避免异常进程无限等待。
