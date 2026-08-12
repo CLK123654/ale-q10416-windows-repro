@@ -1,7 +1,7 @@
-支持Windows11、macOS13及主流64位Linux。本次锁定Helm3.17.3，Windows11使用官方helm.exe。Chart必须经过真实Helm的lint、values.schema.json校验、values合并和template渲染；普通文本替换或只读取模板源码不能代替这些Helm语义。
+支持Windows11、macOS13及主流64位Linux。主软件为Helm3.17.3，Windows11使用官方helm.exe。Chart必须经过真实Helm的lint、values.schema.json校验、values合并和template渲染；普通文本替换或只读取模板源码不能代替这些Helm语义。
 
-辅助工具为Node.js20或更高版本、PowerShell或系统终端，以及JSON、YAML和CSV查看器。安装软件时可以联网，处理业务材料时保持离线，不连接Kubernetes API、镜像仓库或搜索服务。Helm按Apache2.0许可使用，Node.js按其开源许可使用。输入材料为脱敏配置样例。
+辅助工具为Node.js20或更高版本、PowerShell或系统终端，以及JSON、YAML和CSV查看器。安装软件时可以联网，处理业务材料时保持离线，不连接Kubernetes API、镜像仓库或搜索服务。输入材料为脱敏配置样例。
 
 建议使用双核CPU、1GB内存和300MB可写磁盘，不需要GPU。执行账号需读取input_data下的Chart、values、data、rules与tools目录，可写output目录，并有权运行HELM_BIN指定的Helm程序。单次入口最长运行60秒。
 
-需要留意Ingress后端和Service端口断链、disabled租户残留注解、release或namespace被写死，以及回滚差异方向反转。Windows入口使用跨平台路径，不依赖WSL、容器、Bash或POSIX专用接口。
+需要留意Ingress后端和Service端口断链、disabled租户残留注解、release或namespace被写死，以及回滚差异方向反转。Windows入口使用跨平台路径。

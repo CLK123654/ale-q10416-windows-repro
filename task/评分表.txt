@@ -1,4 +1,7 @@
+总分100分
+
 检查项：完成版Chart与运行入口
+分值：15分
 标准答案：任务声明的Chart目录、环境清单和三份业务报告齐全，入口调用真实Helm并正常结束
 关键字段：output/chart/search-gateway；output/rendered；output/reports；进程退出状态
 容差：模板可等价拆分，交付路径与文件格式按任务声明比较
@@ -10,6 +13,7 @@
 所属层级：L8运行验证或可执行行为层
 
 检查项：Schema与Chart对象关系
+分值：15分
 标准答案：Schema覆盖模板实际使用的配置层级并拒绝未知字段，渲染对象之间的名称、选择器、端口和伸缩目标闭合
 关键字段：values.schema.json；Deployment spec；Service spec；Ingress backend；HorizontalPodAutoscaler scaleTargetRef
 容差：JSON键顺序、YAML键顺序、空白及模板文件拆分不计分；对象字段按结构比较
@@ -21,6 +25,7 @@
 所属层级：L7产物结构或Schema或专业对象层
 
 检查项：租户路由与限流配置
+分值：25分
 标准答案：每个启用租户的host、path、Service后端、持续请求速率和突发请求速率与本环境values及租户基线一致，模板不含按租户主键分支
 关键字段：tenant_id；environment；host；path；sustained_rps；burst_rps；Ingress rules与annotations
 容差：矩阵按environment和tenant_id组成的业务主键无序比较；数值为整数，容差为0
@@ -32,6 +37,7 @@
 所属层级：L5多源关联与字段一致性层
 
 检查项：发布上下文与公共标签
+分值：15分
 标准答案：对象名称、namespace以及name、instance、managed-by标签来自Helm发布上下文，Deployment、Service、Ingress和HPA指向同一发布实例
 关键字段：render_contract.yaml的release_name与required_labels；metadata.name；metadata.namespace；metadata.labels
 容差：资源文档顺序不计分，标签值与Helm上下文精确比较
@@ -43,6 +49,7 @@
 所属层级：L6领域计算与专业规则层
 
 检查项：回滚差异
+分值：20分
 标准答案：差异报告按render_contract.yaml中的rollback_fields读取生产与回滚清单，resource、field_path、current_value、rollback_value和delta_type均可从渲染对象复算
 关键字段：resource；field_path；current_value；rollback_value；delta_type
 容差：数值字段容差为0，镜像标签和枚举精确比较；报告行按合同字段身份关联
@@ -54,6 +61,7 @@
 所属层级：L9跨产物一致性与可追溯层
 
 检查项：本地Helm处理边界
+分值：10分
 标准答案：业务输入保持不变，运行过程只读取输入包中的Chart、values、租户基线和渲染合同，不访问外部集群与服务
 关键字段：chart；values/env；data/tenant_limits.csv；rules/render_contract.yaml；Helm命令参数
 容差：输入文件按字节比较，正式运行的外部网络访问次数为0

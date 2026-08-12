@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "task_id": "10416",
+  "change_scope": "score_environment_text_only_change",
+  "result": "PASS",
+  "score": {
+    "total_declared": 100,
+    "item_count": 6,
+    "items": [
+      {
+        "name": "完成版Chart与运行入口",
+        "points": 15
+      },
+      {
+        "name": "Schema与Chart对象关系",
+        "points": 15
+      },
+      {
+        "name": "租户路由与限流配置",
+        "points": 25
+      },
+      {
+        "name": "发布上下文与公共标签",
+        "points": 15
+      },
+      {
+        "name": "回滚差异",
+        "points": 20
+      },
+      {
+        "name": "本地Helm处理边界",
+        "points": 10
+      }
+    ],
+    "points_sum": 100
+  },
+  "prompt_coverage_review": {
+    "completed": true,
+    "semantic_change_required": false,
+    "conclusion": "Chart入口、Schema关系、租户路由、发布上下文、回滚差异和本地Helm边界均有对应评分项"
+  },
+  "environment_coverage": {
+    "operating_system": true,
+    "primary_software_and_version": true,
+    "code_execution_dependency": true,
+    "cpu": true,
+    "gpu": true,
+    "disk": true,
+    "timeout": true,
+    "license_removed": true
+  },
+  "environment_license_text_present": false,
+  "field_name_count": 17,
+  "ale_csv_column_count": 19,
+  "attachment_sha256_before": {
+    "输入数据包.zip": "9473c365e3da1fb49178152a14ac17aed7935722ab28a2bab2c3794a17c392ff",
+    "reference.zip": "93bac6670c80d59dbcb21cf54e70536d7c9329a0f725b7eff3ecd1db54baebbf",
+    "关键标准答案.xlsx": "d20ead6308ee7ee2142f9b1aea13f077eabd70887d4d07e0170afdc93b05b27b",
+    "任务规格转化.xlsx": "87a903ba95755e8b315ae03197684412a3e0c38b50e4eef45347bc1f87c90312"
+  },
+  "attachment_sha256_after": {
+    "输入数据包.zip": "9473c365e3da1fb49178152a14ac17aed7935722ab28a2bab2c3794a17c392ff",
+    "reference.zip": "93bac6670c80d59dbcb21cf54e70536d7c9329a0f725b7eff3ecd1db54baebbf",
+    "关键标准答案.xlsx": "d20ead6308ee7ee2142f9b1aea13f077eabd70887d4d07e0170afdc93b05b27b",
+    "任务规格转化.xlsx": "87a903ba95755e8b315ae03197684412a3e0c38b50e4eef45347bc1f87c90312"
+  },
+  "attachments_unchanged": true,
+  "windows_rerun_required": false,
+  "lark_called": false,
+  "online_ai_detection_used_as_conclusion": false
+}
