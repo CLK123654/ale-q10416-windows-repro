@@ -1,0 +1,46 @@
+name: windows-2025
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: windows-2025
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Helm3.17.3
+        shell: pwsh
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP helm.zip
+          $tools = Join-Path $env:RUNNER_TEMP helm-tools
+          Invoke-WebRequest https://get.helm.sh/helm-v3.17.3-windows-amd64.zip -OutFile $archive
+          Expand-Archive -LiteralPath $archive -DestinationPath $tools
+          $helm = Get-ChildItem $tools -Recurse -Filter helm.exe | Select-Object -First 1 -ExpandProperty FullName
+          Add-Content $env:GITHUB_ENV "HELM_BIN=$helm"
+
+      - name: Verify on Windows
+        shell: pwsh
+        run: node verification/verify.mjs
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: q10416-windows-evidence
+          path: evidence/windows-verification.json
+          if-no-files-found: error
+          retention-days: 1

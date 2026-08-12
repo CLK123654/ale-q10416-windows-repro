@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "result": "PASS",
+  "scanned_sources": 174,
+  "violations": [],
+  "candidate_score_answer_leakage": [],
+  "input_answer_control_hits": [],
+  "answer_sheets": [
+    "交付物答案清单",
+    "固定字段答案",
+    "固定集合答案",
+    "固定数值答案",
+    "允许变体答案"
+  ],
+  "specification_sheets": [
+    "任务规格转化"
+  ],
+  "task_spec_row_count": 16,
+  "task_spec_column_count": 2,
+  "task_asset_id": "helm_search_gateway_tenant_limit_rollback",
+  "task_asset_id_valid": true,
+  "forbidden_spec_labels": [],
+  "declared_delivery_paths": [
+    "output/chart/search-gateway",
+    "output/rendered/staging.yaml",
+    "output/rendered/prod.yaml",
+    "output/rendered/prod-rollback.yaml",
+    "output/reports/tenant_limit_matrix.csv",
+    "output/reports/rollback_delta.csv",
+    "output/reports/helm_lint_report.txt"
+  ],
+  "reference_paths": [
+    "output/chart/search-gateway/Chart.yaml",
+    "output/chart/search-gateway/templates/_helpers.tpl",
+    "output/chart/search-gateway/templates/deployment.yaml",
+    "output/chart/search-gateway/templates/hpa.yaml",
+    "output/chart/search-gateway/templates/ingress.yaml",
+    "output/chart/search-gateway/templates/service.yaml",
+    "output/chart/search-gateway/values.schema.json",
+    "output/chart/search-gateway/values.yaml",
+    "output/rendered/prod-rollback.yaml",
+    "output/rendered/prod.yaml",
+    "output/rendered/staging.yaml",
+    "output/reports/helm_lint_report.txt",
+    "output/reports/rollback_delta.csv",
+    "output/reports/tenant_limit_matrix.csv"
+  ],
+  "undeclared_reference_paths": [],
+  "empty_delivery_paths": [],
+  "forbidden_input_token_hits": [],
+  "candidate_validation_artifact_present": false,
+  "humanizer_score": 47,
+  "online_ai_detector_used_as_conclusion": false
+}

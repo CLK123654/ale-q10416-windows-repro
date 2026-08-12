@@ -1,0 +1,65 @@
+检查项：完成版Chart与运行入口
+标准答案：任务声明的Chart目录、环境清单和三份业务报告齐全，入口调用真实Helm并正常结束
+关键字段：output/chart/search-gateway；output/rendered；output/reports；进程退出状态
+容差：模板可等价拆分，交付路径与文件格式按任务声明比较
+失败边界：Chart或核心报告缺失、入口执行失败，或没有调用Helm lint与helm template
+可观察证据：交付目录、Helm进程记录、入口退出状态和本次生成文件
+客观硬性标准：Chart可读，入口返回0，声明的环境清单与报告均能解析
+阈值：全部核心交付存在且入口正常结束
+优先级：Gate项
+所属层级：L8运行验证或可执行行为层
+
+检查项：Schema与Chart对象关系
+标准答案：Schema覆盖模板实际使用的配置层级并拒绝未知字段，渲染对象之间的名称、选择器、端口和伸缩目标闭合
+关键字段：values.schema.json；Deployment spec；Service spec；Ingress backend；HorizontalPodAutoscaler scaleTargetRef
+容差：JSON键顺序、YAML键顺序、空白及模板文件拆分不计分；对象字段按结构比较
+失败边界：Schema漏掉实际消费字段、未知字段被接受、Ingress后端无对应Service，或HPA目标与Deployment不一致
+可观察证据：helm lint结果、环境YAML和Chart模板
+客观硬性标准：合同要求的资源类型均可由Helm渲染，引用关系按release和namespace正确连接
+阈值：所有环境均满足对象关系与Schema边界
+优先级：Gate项
+所属层级：L7产物结构或Schema或专业对象层
+
+检查项：租户路由与限流配置
+标准答案：每个启用租户的host、path、Service后端、持续请求速率和突发请求速率与本环境values及租户基线一致，模板不含按租户主键分支
+关键字段：tenant_id；environment；host；path；sustained_rps；burst_rps；Ingress rules与annotations
+容差：矩阵按environment和tenant_id组成的业务主键无序比较；数值为整数，容差为0
+失败边界：启用状态与环境配置不符、路由或注解缺失、两类速率颠倒、跨环境串值，或模板按tenant_id硬编码结果
+可观察证据：tenant_limits.csv、环境values、渲染YAML和tenant_limit_matrix.csv
+客观硬性标准：每条启用记录可从两份输入定位并在Ingress及矩阵中交叉复算
+阈值：全部启用记录与排除记录均符合公开规则
+优先级：高权重项
+所属层级：L5多源关联与字段一致性层
+
+检查项：发布上下文与公共标签
+标准答案：对象名称、namespace以及name、instance、managed-by标签来自Helm发布上下文，Deployment、Service、Ingress和HPA指向同一发布实例
+关键字段：render_contract.yaml的release_name与required_labels；metadata.name；metadata.namespace；metadata.labels
+容差：资源文档顺序不计分，标签值与Helm上下文精确比较
+失败边界：release或namespace写死、公共标签缺失、selector不一致，或不同环境对象互相引用
+可观察证据：渲染合同、helm template参数和环境YAML
+客观硬性标准：每个环境内的对象身份与引用可按kind和metadata.name关联
+阈值：所有环境均满足
+优先级：高权重项
+所属层级：L6领域计算与专业规则层
+
+检查项：回滚差异
+标准答案：差异报告按render_contract.yaml中的rollback_fields读取生产与回滚清单，resource、field_path、current_value、rollback_value和delta_type均可从渲染对象复算
+关键字段：resource；field_path；current_value；rollback_value；delta_type
+容差：数值字段容差为0，镜像标签和枚举精确比较；报告行按合同字段身份关联
+失败边界：合同字段漏记、方向反转、资源身份错误、值来自环境文件而非本次清单，或增加合同外差异
+可观察证据：render_contract.yaml、生产清单、回滚清单和rollback_delta.csv
+客观硬性标准：报告每行都能定位到两份清单中的同一资源与字段
+阈值：所有合同字段均形成方向正确的差异
+优先级：高权重项
+所属层级：L9跨产物一致性与可追溯层
+
+检查项：本地Helm处理边界
+标准答案：业务输入保持不变，运行过程只读取输入包中的Chart、values、租户基线和渲染合同，不访问外部集群与服务
+关键字段：chart；values/env；data/tenant_limits.csv；rules/render_contract.yaml；Helm命令参数
+容差：输入文件按字节比较，正式运行的外部网络访问次数为0
+失败边界：修改业务输入、连接Kubernetes API、镜像仓库或搜索流量，或从输入包外取得业务结果
+可观察证据：输入文件、Helm命令、进程网络边界和输出目录
+客观硬性标准：所有Helm操作限于本地lint与template，交付物由本次输入生成
+阈值：输入未变且外部访问为0
+优先级：普通项
+所属层级：L3输入数据导入与完整性层

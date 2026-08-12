@@ -1,0 +1,8 @@
+1. 读取render_contract.yaml、tenant_limits.csv和三套环境values，确认release、namespace、公共标签及回滚字段。
+2. 在values.schema.json声明image、service、resources、replicaCount、autoscaling和tenants的对象边界、必需字段及数值范围。
+3. 在Service和Ingress模板中使用Helm release上下文连接selector、端口、租户路由与限流注解。
+4. 执行helm lint output/chart/search-gateway --strict，确认Chart结构和Schema可由Helm接受。
+5. 按render_contract.yaml逐个执行helm template，传入环境values与namespace并保存本次YAML。
+6. 解析Ingress及对应环境配置，以environment和tenant_id关联租户基线并写入tenant_limit_matrix.csv。
+7. 从生产与回滚YAML读取rollback_fields指定的资源字段，写入rollback_delta.csv并保留差异方向。
+8. 核对Deployment、Service、Ingress与HorizontalPodAutoscaler的名称、标签、端口、selector及目标引用。

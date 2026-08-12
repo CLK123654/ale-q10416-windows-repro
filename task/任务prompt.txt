@@ -1,0 +1,9 @@
+搜索网关准备把多租户限流从人工维护的Ingress注解迁入Helm Chart。现有Chart缺少Service，Ingress模板也没有完成，生产回滚时还容易漏掉容量和限流差异。请整理一套可交给发布值班人员使用的Chart和环境清单。
+
+输入数据包中的chart/search-gateway是待完善的Chart，values/env保存环境配置，data/tenant_limits.csv记录租户基线，rules/render_contract.yaml说明环境、公共资源、标签、回滚字段和交付路径。README.md给出了运行入口。把完成版Chart保存到output/chart/search-gateway。
+
+使用Helm3.17.3补齐Service和Ingress模板，并完善values.schema.json对镜像、服务端口、资源、伸缩配置与租户条目的约束。各环境清单要包含Deployment、Service、Ingress和autoscaling/v2版HorizontalPodAutoscaler。对象名称、命名空间和公共标签取Helm发布上下文；Service端口与Pod端口相连，HPA指向本环境Deployment。
+
+Ingress只为当前环境中启用的租户生成路由和限流注解。host、path、持续请求速率与突发请求速率来自环境values，并与tenant_limits.csv保持一致。不要按具体租户名称编写模板分支。生产基线中未启用的租户仍需保留在租户矩阵中，以便运营人员看清排除原因。
+
+生产与回滚清单使用同一套Chart。根据render_contract.yaml列出的字段，从两份本次渲染结果中整理有方向的回滚差异。进入input_data运行node tools/run_task.mjs，交付完成版Chart、output/rendered目录中的环境YAML，以及output/reports中的tenant_limit_matrix.csv、rollback_delta.csv和helm_lint_report.txt。所有Helm操作在本地完成，不连接Kubernetes集群、镜像仓库或真实搜索流量。
