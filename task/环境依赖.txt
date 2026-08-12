@@ -1,4 +1,4 @@
-操作系统：Windows11、macOS或主流64位Linux。
+操作系统： Windows11、macOS或主流64位Linux。
 
 主软件为Helm3.17系列或更高兼容版本，Windows环境使用helm.exe。Chart需经过真实Helm的lint、values.schema.json校验、values合并和template渲染；普通文本替换或只读取模板源码不能代替这些Helm语义。
 
